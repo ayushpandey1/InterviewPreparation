@@ -1,3 +1,4 @@
+287. Find the Duplicate Number(LeetCode)
 //Method-1 O(nlogn)
 class Solution {
 public:
