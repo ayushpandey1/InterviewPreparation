@@ -1,0 +1,71 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if (intervals.size() == 0) {
+            return intervals;    
+        }
+        
+        sort(intervals.begin(), intervals.end(), [](const vector<int> & l, const vector<int>& r){
+            return r[0] > l[0];
+        });
+        
+        int index = 0;
+        for (int i = 1; i < intervals.size(); i++) {
+            if (intervals[i][0] <= intervals[index][1]) {
+                intervals[index][0] = min(intervals[index][0], intervals[i][0]);
+                intervals[index][1] = max(intervals[index][1], intervals[i][1]);
+            } else {
+                index++;
+                intervals[index] = intervals[i];
+            }
+        }
+                
+        vector<vector<int>> resultV;
+        for (int i = 0; i <= index; i++) {
+            resultV.push_back(intervals[i]); 
+        }
+        return resultV;   
+    }
+        
+};
+
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        int n=intervals.size(); //number of intervals
+        int count=0;  //just a variable to help us calculate new opening and ending
+        vector <pair<int, int>> intervalspace; //a vector of pairs having  the number and an indentifier telling if its the opening- 0 or ending- 1
+        vector <vector<int>> res;
+        
+        //populating the interval space marking beginning and end
+        for(int i=0;i<n;i++){
+            //for the opening of the interval put 0, for end put 1 as identifier
+            intervalspace.push_back(make_pair(intervals[i][0], 0));
+            intervalspace.push_back(make_pair(intervals[i][1], 1));
+            
+        }
+        
+        //sorting like putting on the number line
+        sort(intervalspace.begin(), intervalspace.end(), [&](pair <int, int> &a, pair <int, int> &b){
+            if(a.first==b.first)
+                return a.second<b.second;
+            return a.first<b.first;
+        });
+        
+        //merging
+         for(int i=0;i<intervalspace.size();i++){
+        //if it is an opening bracket
+            if(intervalspace[i].second==0){
+                count++;
+                if(count==1)  //will be the start of a new interval
+                    res.push_back({intervalspace[i].first});  //make sure to use the curly bracket here  
+            }
+            else{
+                count--;
+                if(count==0) //end of previously started array
+                res[res.size()-1].push_back(intervalspace[i].first);
+            }
+        }
+        return res;
+    }
+};
