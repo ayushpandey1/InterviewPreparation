@@ -1,0 +1,52 @@
+51. N-Queens
+//Method-1
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+       
+        
+        
+    vector<vector<string>> ans;
+    vector<int> ins;
+    
+    backtrack(0, ins, ans, n);
+    
+    return ans;
+}
+
+
+void backtrack(int depth, vector<int>& ins, vector<vector<string>>& ans, int n){
+    if(depth == n){
+        vector<string> tmp(n, string(n, '.'));
+        
+        for(int i = 0; i < n; i++){
+            tmp[i][ins[i]] = 'Q';
+        }
+        
+        ans.push_back(tmp);
+        return;
+    }
+    
+    for(int j = 0; j < n; ++j){
+        if(isAttackable(depth, ins, j))
+            continue;
+        else{
+            ins.push_back(j);
+            backtrack(depth + 1, ins, ans, n);
+            ins.pop_back();
+        }
+    }
+}
+
+bool isAttackable(int depth, vector<int>& ins, int position){
+    for(int i = 0; i < ins.size(); i++){
+        if(ins[i] == position)
+            return true;
+        if(abs(depth - i) == abs(position - ins[i]))
+            return true;
+    }
+    
+    return false;
+}
+   
+};
