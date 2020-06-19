@@ -1,0 +1,95 @@
+42. Trapping Rain Water
+//Method-1
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int l = 0, r = height.size() - 1, water = 0, minHeight = 0;
+        while (l < r) {
+            while (l < r && height[l] <= minHeight) {
+                water += minHeight - height[l++];
+            }
+            while (l < r && height[r] <= minHeight) {
+                water += minHeight - height[r--];
+            }
+            minHeight = min(height[l], height[r]);
+        }
+        return water;
+    }
+};
+
+
+//Method-2
+int trap(vector<int>& height) {
+    int l = 0, r = height.size()-1, level = 0, water = 0;
+    while (l < r) {
+        int lower = height[height[l] < height[r] ? l++ : r--];
+        level = max(level, lower);
+        water += level - lower;
+    }
+    return water;
+}
+
+//Method-3
+class Solution {
+public:
+    int trap(int A[], int n) {
+        int left=0; int right=n-1;
+        int res=0;
+        int maxleft=0, maxright=0;
+        while(left<=right){
+            if(A[left]<=A[right]){
+                if(A[left]>=maxleft) maxleft=A[left];
+                else res+=maxleft-A[left];
+                left++;
+            }
+            else{
+                if(A[right]>=maxright) maxright= A[right];
+                else res+=maxright-A[right];
+                right--;
+            }
+        }
+        return res;
+    }
+};
+
+//Method-4(java)
+public int trap(int[] A){
+    int a=0;
+    int b=A.length-1;
+    int max=0;
+    int leftmax=0;
+    int rightmax=0;
+    while(a<=b){
+        leftmax=Math.max(leftmax,A[a]);
+        rightmax=Math.max(rightmax,A[b]);
+        if(leftmax<rightmax){
+            max+=(leftmax-A[a]);       // leftmax is smaller than rightmax, so the (leftmax-A[a]) water can be stored
+            a++;
+        }
+        else{
+            max+=(rightmax-A[b]);
+            b--;
+        }
+    }
+    return max;
+}
+
+//Method-5(java, stack)
+public int trap(int[] A) {
+        if (A==null) return 0;
+        Stack<Integer> s = new Stack<Integer>();
+        int i = 0, maxWater = 0, maxBotWater = 0;
+        while (i < A.length){
+            if (s.isEmpty() || A[i]<=A[s.peek()]){
+                s.push(i++);
+            }
+            else {
+                int bot = s.pop();
+                maxBotWater = s.isEmpty()? // empty means no il
+                0:(Math.min(A[s.peek()],A[i])-A[bot])*(i-s.peek()-1);
+                maxWater += maxBotWater;
+            }
+        }
+        return maxWater;
+    }
+
