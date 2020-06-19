@@ -1,0 +1,34 @@
+37. Sudoku Solver
+//Method-1
+class Solution {
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board, 0);
+    }
+    
+	bool solve(vector<vector<char>>& board, int cur) {		
+		while (cur < 81 && board[cur / 9][cur%9] != '.') cur++; 
+		if (cur == 81) return true;
+		int i = cur / 9, j = cur%9;
+		for (auto c = '1'; c <= '9'; ++c) {
+			if (isValid(board, i, j, c)) {
+				board[i][j] = c;
+				if (solve(board, cur + 1))
+					return true;
+				else
+					board[i][j] = '.';
+			}
+		}
+
+		return false;
+	}
+    
+    bool isValid(vector<vector<char>> &board, int i, int j, char c) {
+        for (int k = 0; k < 9; ++k) {
+            if (board[i][k] == c) return false;
+            if (board[k][j] == c) return false;
+            if (board[3*(i/3)+k/3][3*(j/3)+k%3] == c) return false;
+        }
+        return true;
+    }
+};
