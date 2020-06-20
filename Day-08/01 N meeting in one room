@@ -1,0 +1,18 @@
+//Method-1
+class Solution {
+public:
+    int minMeetingRooms(vector<Interval>& intervals){
+        // Time O(NlogN)
+        map<int, int> mp; // key:time, val:+1 start, -1 end
+        for (int i = 0; i < intervals.size(); ++i) {
+            mp[intervals[i].start]++;
+            mp[intervals[i].end]--;
+        }
+        int cnt = 0; maxcnt = 0;
+        for (auto it = mp.begin(); it != mp.end(); ++it) {
+            cnt += it->second;
+            maxcnt = max(maxcnt, cnt);
+        }
+        return maxcnt;
+    }
+};
