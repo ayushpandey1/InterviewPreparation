@@ -1,0 +1,7 @@
+number = gets
+bitpos = 0
+while number != 0
+  bitpos++             # increment the bit position
+  number = number >> 1 # shift the whole thing to the right once
+end
+puts bitpos
