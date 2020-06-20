@@ -1,0 +1,13 @@
+void getPowerSet(const vector<int>& arr)
+{
+	vector<vector<int>> results = {{}};
+	for (auto nNumber : arr) {
+		vector<vector<int>> addtionResults = results;
+		for (auto resultCopy : addtionResults) {
+			resultCopy.push_back(nNumber);
+			copy(resultCopy.begin(), resultCopy.end(), std::ostream_iterator<int>(std::cout, ""));
+			printf("\n");
+			results.push_back(resultCopy);
+		}
+	}
+}
