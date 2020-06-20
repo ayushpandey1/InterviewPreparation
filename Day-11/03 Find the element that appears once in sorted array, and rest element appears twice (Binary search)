@@ -1,0 +1,17 @@
+540. Single Element in a Sorted Array
+//Method-1
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        stack<int>res;
+        int ans{0};
+        res.push(-1);
+        res.push(nums[0]);
+        for(int i{1};i<nums.size();i++){
+            if(nums[i]==res.top())res.pop();
+            else res.push(nums[i]);
+        }
+        ans=res.top();
+        return ans;
+    }
+};
