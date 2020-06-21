@@ -1,16 +1,27 @@
 206. Reverse Linked List
-//Method-1
+//Method-1 Iterative
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode *pre = new ListNode(0), *cur = head;
-        pre -> next = head;
-        while (cur && cur -> next) {
-            ListNode* temp = pre -> next;
-            pre -> next = cur -> next;
-            cur -> next = cur -> next -> next;
-            pre -> next -> next = temp;
+      ListNode *prev=NULL, *curr=head, *temp; 
+        while(curr){
+            temp=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=temp;
         }
-        return pre -> next;
+        return prev;
+    }
+};
+
+//Method-2 Recursive
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+      if(!head || !(head->next))return head;
+        auto res=reverseList(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return res;
     }
 };
